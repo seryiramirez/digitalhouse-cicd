@@ -9,7 +9,7 @@ jobs:
   #Primero defino, donde va a correr el pipeline?
   test:
     runs-on: ubuntu-latest
-    environment: production #El environment, como es un push a la rama main,
+    environment: development #El environment, como es un push a la rama main,
     #es produccion. (Es una estrategia)
     strategy:
       matrix:
@@ -23,15 +23,16 @@ jobs:
 
   deploy:
     runs-on: ubuntu-latest
-    environment: production
+    environment: development
     needs: [ test ] #puedo agregar n cantidad de Jobs.
     steps:
     - uses: actions/checkout@v4
     - name: Docker build to registry
       env:
-        REPOSITORY: express-api
+        REGISTRY: ${{ vars.REGISTRY }}
+        REPOSITORY: ${{ vars.REPOSITORY }}
         IMAGE_TAG: ${{ github.sha }} #Puedo utilizar variables de GitHub.
-      run: docker build -t $REPOSITORY:$IMAGE_TAG . #Tipo Linux
+      run: docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG . #Tipo Linux
 
 
 
