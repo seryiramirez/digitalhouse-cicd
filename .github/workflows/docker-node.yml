@@ -3,7 +3,7 @@ name: Docker Image Express ##despues voy a utilizar minusculas y guiones medio
 ##Trigger, que evento va a ejecutar el pipeline?
 on:
   push: #Cuando se haga un push a la rama main.
-    branches: [ main ] #Va entre corchetes porque es una lista.
+    branches: [ prueba-actions ] #Va entre corchetes porque es una lista.
 
 jobs: 
   #Primero defino, donde va a correr el pipeline?
