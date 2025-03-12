@@ -5,6 +5,10 @@ on:
   push: #Cuando se haga un push a la rama main.
     branches: [ prueba-actions ] #Va entre corchetes porque es una lista.
 
+permissions: #permisos para poder autenticarme en AWS
+    id-token: write
+    contents: read
+
 jobs: 
   #Primero defino, donde va a correr el pipeline?
   test:
