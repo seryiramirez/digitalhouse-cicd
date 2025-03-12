@@ -2,34 +2,36 @@ name: Docker Image Express ##despues voy a utilizar minusculas y guiones medio
 
 ##Trigger, que evento va a ejecutar el pipeline?
 on:
-  push:
-    branches: [ main ]
+  push: #Cuando se haga un push a la rama main.
+    branches: [ main ] #Va entre corchetes porque es una lista.
 
-jobs:
+jobs: 
+  #Primero defino, donde va a correr el pipeline?
   test:
     runs-on: ubuntu-latest
-    environment: production
+    environment: production #El environment, como es un push a la rama main,
+    #es produccion. (Es una estrategia)
     strategy:
       matrix:
-        node-version: [ 18.x, 20.x ]
-    steps:
+        node-version: [ 18.x, 20.x ] #Varias versiones de Node para hacer el test.
+    steps: #Pasos, pull del repositorio.
     - uses: actions/checkout@v4
-    - uses: actions/setup-node@v4
-    - run: npm ci
-    - run: npm test
+    - uses: actions/setup-node@v4 #Seteo de la version de node.
+    - run: npm ci 
+                  # } Defino los tests
+    - run: npm test 
 
   deploy:
     runs-on: ubuntu-latest
     environment: production
-    needs: [ test ]
+    needs: [ test ] #puedo agregar n cantidad de Jobs.
     steps:
     - uses: actions/checkout@v4
     - name: Docker build to registry
       env:
         REPOSITORY: express-api
-        IMAGE_TAG: ${{ github.sha }}
+        IMAGE_TAG: ${{ github.sha }} #Puedo utilizar variables de GitHub.
       run: docker build -t $REPOSITORY:$IMAGE_TAG . #Tipo Linux
-
 
 
 
